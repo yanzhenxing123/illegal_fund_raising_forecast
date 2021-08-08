@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('server/api/user/', include("user_profile.urls", namespace='profile')),
+    path('server/api/', include("forecast.urls", namespace='forecast')),
 ]
