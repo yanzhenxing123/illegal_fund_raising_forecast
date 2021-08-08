@@ -5,6 +5,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from user_profile.my_auth import MyPermissions
 from user_profile.serializer import UserRegisterSerializer
 
+
 class RegisterView(APIView):
     authentication_classes = []
     permission_classes = []
