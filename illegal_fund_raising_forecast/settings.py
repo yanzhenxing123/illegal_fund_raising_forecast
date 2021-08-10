@@ -119,7 +119,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "illegal_forecast",
         'USER': "root",
-        "PASSWORD": "209243",
+        # "PASSWORD": "209243",
+        "PASSWORD": "5211314yzx",
         "HOST": "127.0.0.1",
         "PORT": "3306",
         'OPTIONS': {
