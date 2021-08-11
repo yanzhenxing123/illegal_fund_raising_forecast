@@ -9,6 +9,7 @@ import re
 from captcha.models import CaptchaStore
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework_jwt.serializers import JSONWebTokenSerializer
 
 from .models import Profile
 
@@ -77,3 +78,76 @@ class UserRegSerializer(serializers.Serializer):
         user = User.objects.create_user(username=validated_data['username'], password=validated_data['password'], email=validated_data['email'])
         Profile.objects.create(user=user)
         return user.id
+    
+# 登录序列化
+
+from rest_framework_jwt.settings import api_settings
+
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+from django.contrib.auth import authenticate
+from rest_framework_jwt.compat import PasswordField
+
+
+class MyloginSerializer(JSONWebTokenSerializer):
+    """
+    从写登录序列化
+    """
+    def __init__(self, *args, **kwargs):
+        """
+        Dynamically add the USERNAME_FIELD to self.fields.
+        """
+        super(JSONWebTokenSerializer, self).__init__(*args, **kwargs)
+
+        self.fields[self.username_field] = serializers.CharField()
+        self.fields['password'] = PasswordField(write_only=True)
+        self.fields['captcha'] = serializers.CharField(min_length=4, max_length=4, required=True,
+                                                       error_messages={
+                                                           "max_length": "图片验证码格式错误",
+                                                           "min_length": "图片验证码格式错误",
+                                                           "required": "请输入图片验证码"
+                                                       })
+        self.fields['ima_id'] = serializers.CharField(required=True, allow_blank=False)
+
+    def validate_captcha(self, captcha):
+        image_code = CaptchaStore.objects.filter(
+            id=self.initial_data['ima_id']).first()
+        five_minute_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
+        if image_code and five_minute_ago > image_code.expiration:
+            raise serializers.ValidationError('验证码过期')
+        else:
+            if image_code and (image_code.response == captcha or image_code.challenge == captcha):
+                pass
+            else:
+                raise serializers.ValidationError("图片验证码错误")
+
+    def validate(self, attrs):
+        del attrs["ima_id"]
+        del attrs["captcha"]
+        credentials = {
+            self.username_field: attrs.get(self.username_field),
+            'password': attrs.get('password')
+        }
+
+        if all(credentials.values()):
+            user = authenticate(**credentials)
+
+            if user:
+                if not user.is_active:
+                    msg = _('User account is disabled.')
+                    raise serializers.ValidationError(msg)
+
+                payload = jwt_payload_handler(user)
+
+                return {
+                    'token': jwt_encode_handler(payload),
+                    'user': user
+                }
+            else:
+                msg = _('Unable to log in with provided credentials.')
+                raise serializers.ValidationError(msg)
+        else:
+            msg = _('Must include "{username_field}" and "password".')
+            msg = msg.format(username_field=self.username_field)
+            raise serializers.ValidationError(msg)
+

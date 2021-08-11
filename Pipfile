@@ -12,6 +12,12 @@ numpy = "*"
 pandas = "*"
 django-cors-headers = "*"
 pillow = "*"
+pymysql = "*"
+django-simple-captcha = "*"
+cryptography = "*"
+sklearn = "*"
+lightgbm = "*"
+catboost = "*"
 
 [dev-packages]
 

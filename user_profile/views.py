@@ -9,11 +9,21 @@ from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_payload_handler
 from rest_framework_jwt.utils import jwt_encode_handler
+from rest_framework_jwt.views import JSONWebTokenAPIView
 
 from user_profile.my_auth import MyPermissions
-from user_profile.serializer import UserRegSerializer
+from user_profile.serializer import UserRegSerializer, MyloginSerializer
 
 from captcha.views import CaptchaStore, captcha_image
+
+
+# 重写注册view
+class MyJSONWebToken(JSONWebTokenAPIView):
+    """"
+    重写jwt的登录验证，含图片验证码
+    """
+    serializer_class = MyloginSerializer
+
 
 
 class ImageView(APIView):
@@ -107,3 +117,5 @@ class RegisterView2(APIView):
 class TestView(APIView):
     def get(self, request):
         return Response(data={"dada"})
+
+
