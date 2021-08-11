@@ -26,13 +26,13 @@ class TestUploadView(APIView):
         serializer = TestDatasetSerializer(data=data)
         obj = serializer.create(data)
         return Response(status=200,
-                        data={"code": 200, "msg":"上传成功", "data":{
+                        data={"code": 200, "msg": "上传成功", "data": {
                             "test_id": obj.id,
                             "dataset_lines": "还未实现",
                             "p_and_n_proportion": "还未实现",
                             "area_distribution": "还未实现",
                         }}
-        )
+                        )
 
 
 class TrainUploadView(APIView):
@@ -53,6 +53,7 @@ class TrainUploadView(APIView):
                             "url": obj.train.url,
                         }}
                         )
+
 
 class TrainDownloadView(APIView):
     def get(self):
