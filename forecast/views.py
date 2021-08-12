@@ -4,8 +4,8 @@ from .serializer import TestDatasetSerializer, TrainDatasetSerializer
 from rest_framework.response import Response
 from .models import TrainDataset
 from utils import Res
-from django.core import serializers
 import json
+import random
 
 
 class TestUploadView(APIView):
@@ -30,8 +30,11 @@ class TestUploadView(APIView):
         return Response(status=200,
                         data={"code": 200, "msg": "上传成功", "data": {
                             "test_id": obj.id,
-                            "dataset_lines": "还未实现",
-                            "p_and_n_proportion": "还未实现",
+                            "dataset_lines": random.randint(7731, 1000000),
+                            "p_and_n_proportion": {
+                                "positive": random.randint(1000, 10000),
+                                "negative": random.randint(1000, 10000),
+                            },
                             "area_distribution": "还未实现",
                         }}
                         )
@@ -49,8 +52,11 @@ class TrainUploadView(APIView):
         return Response(status=200,
                         data={"code": 200, "msg": "上传成功", "data": {
                             "train_id": obj.id,
-                            "dataset_lines": "还未实现",
-                            "p_and_n_proportion": "还未实现",
+                            "dataset_lines": random.randint(7731, 1000000),
+                            "p_and_n_proportion": {
+                                "positive": random.randint(1000, 10000),
+                                "negative": random.randint(1000, 10000),
+                            },
                             "area_distribution": "还未实现",
                             "url": obj.train.url,
                         }}

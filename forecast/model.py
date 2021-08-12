@@ -37,12 +37,9 @@ print(entprise_info.columns)
 
 pd.to_datetime(tax_info['START_DATE'],format="%Y-%m-%d")
 
-
+df_x = pd.DataFrame(entprise_info['id'])
 df_y = pd.DataFrame(entprise_info['label'])
 x_train, x_test,  y_train, y_test = train_test_split(df_x, df_y, test_size = 0.3, random_state = 2021)
-
-
-
 
 data = pd.concat([x_train, x_test]).reset_index(drop=True)
 
