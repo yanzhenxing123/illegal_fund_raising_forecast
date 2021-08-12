@@ -48,7 +48,7 @@ class TrainUploadView(APIView):
         obj = serializer.create(validated_data=data)
         return Response(status=200,
                         data={"code": 200, "msg": "上传成功", "data": {
-                            "test_id": obj.id,
+                            "train_id": obj.id,
                             "dataset_lines": "还未实现",
                             "p_and_n_proportion": "还未实现",
                             "area_distribution": "还未实现",
@@ -63,7 +63,11 @@ class TrainDownloadView(APIView):
         if not train_id:
             return Response(json.loads(Res(code=4001, msg="train_id is None", data=None).json()))
         obj = TrainDataset.objects.get(id=train_id)
-        return Response(json.loads(Res(code=200, msg="success", data={"train_url": obj.train.url}).json()))
+
+        return Response(json.loads(Res(code=200, msg="success",
+                                       data={"train_url": obj.train.url if obj else None
+                                             }
+                                       ).json()))
 
 
 class TrainStartView(APIView):
