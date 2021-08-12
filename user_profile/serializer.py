@@ -27,7 +27,6 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(min_length=6, max_length=20, required=True)
 
     def validate_username(self, username):
-        print(username)
         validate_username(username)
         return username
 
@@ -134,7 +133,7 @@ class MyloginSerializer(JSONWebTokenSerializer):
 
             if user:
                 if not user.is_active:
-                    msg = 'User account is disabled.'
+                    msg = '用户未激活.'
                     raise serializers.ValidationError(msg)
 
                 payload = jwt_payload_handler(user)
@@ -144,10 +143,10 @@ class MyloginSerializer(JSONWebTokenSerializer):
                     'user': user
                 }
             else:
-                msg = 'Unable to log in with provided credentials.'
+                msg = '用户名或密码错误'
                 raise serializers.ValidationError(msg)
         else:
-            msg = 'Must include "{username_field}" and "password".'
+            msg = '用户名和密码必须输入'
             msg = msg.format(username_field=self.username_field)
             raise serializers.ValidationError(msg)
 

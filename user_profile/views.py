@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_payload_handler
+from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.utils import jwt_encode_handler
 from rest_framework_jwt.views import JSONWebTokenAPIView
 
@@ -16,6 +17,16 @@ from user_profile.serializer import UserRegSerializer, MyloginSerializer
 
 from captcha.views import CaptchaStore, captcha_image
 
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
+from datetime import datetime
+
+from utils import Res
+
+jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
+
+
 
 # 重写注册view
 class MyJSONWebToken(JSONWebTokenAPIView):
@@ -23,6 +34,25 @@ class MyJSONWebToken(JSONWebTokenAPIView):
     重写jwt的登录验证，含图片验证码
     """
     serializer_class = MyloginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.object.get('user') or request.user
+            token = serializer.object.get('token')
+            response_data = jwt_response_payload_handler(token, user, request)
+            response = Response(response_data)
+            if api_settings.JWT_AUTH_COOKIE:
+                expiration = (datetime.utcnow() +
+                              api_settings.JWT_EXPIRATION_DELTA)
+                response.set_cookie(api_settings.JWT_AUTH_COOKIE,
+                                    token,
+                                    expires=expiration,
+                                    httponly=True)
+            return response
+
+        return Response(Res(200, serializer.errors, None).json(), status=status.HTTP_200_OK)
 
 
 class ImageView(APIView):
