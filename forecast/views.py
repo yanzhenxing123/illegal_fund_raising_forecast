@@ -88,3 +88,18 @@ class TrainStartView(APIView):
 class ResultView(APIView):
     def get(self):
         pass
+
+class ConsoleView(APIView):
+    def get(self, request):
+        return Response(
+            {
+                "code": 200,
+                "msg": "success",
+                "data": {
+                    "running": 0,
+                    "train_lines": 0,
+                    "forecast_times": 0
+                }
+
+            }
+        )

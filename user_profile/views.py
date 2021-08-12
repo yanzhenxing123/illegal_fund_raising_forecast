@@ -147,20 +147,7 @@ class RegisterView2(APIView):
         return Response(serializer.errors)
 
 
-class ConsoleView(APIView):
-    def get(self, request):
-        return Response(
-            {
-                "code": 200,
-                "msg": "success",
-                "data": {
-                    "running": 0,
-                    "train_lines": 0,
-                    "forecast_times": 0
-                }
 
-            }
-        )
 
 class TestView(APIView):
     def get(self, request):
