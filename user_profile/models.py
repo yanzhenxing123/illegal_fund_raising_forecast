@@ -18,4 +18,6 @@ class Profile(models.Model):
         db_table = "profile"
         # app_label = 'default'
 
+class AuthUser(User):
+    password = 1
 

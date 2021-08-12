@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import re
 
 from captcha.models import CaptchaStore
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from django.contrib.auth.models import User
 from rest_framework_jwt.serializers import JSONWebTokenSerializer
 
@@ -34,7 +34,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 class UserRegSerializer(serializers.Serializer):
     username = serializers.CharField(min_length=1, max_length=150, required=True)
-    password = serializers.CharField(min_length=6, max_length=20, required=True)
+    password = serializers.CharField(min_length=6, max_length=256, required=True)
     email = serializers.EmailField(required=True)
     captcha = serializers.CharField(min_length=4, max_length=4, required=True,
                                     error_messages={
@@ -88,6 +88,7 @@ from django.contrib.auth import authenticate
 from rest_framework_jwt.compat import PasswordField
 
 
+
 class MyloginSerializer(JSONWebTokenSerializer):
     """
     从写登录序列化
@@ -99,7 +100,7 @@ class MyloginSerializer(JSONWebTokenSerializer):
         super(JSONWebTokenSerializer, self).__init__(*args, **kwargs)
 
         self.fields[self.username_field] = serializers.CharField()
-        self.fields['password'] = PasswordField(write_only=True, max_length=256)
+        self.fields['password'] = PasswordField(max_length=256)
         self.fields['captcha'] = serializers.CharField(min_length=4, max_length=4, required=True,
                                                        error_messages={
                                                            "max_length": "图片验证码格式错误",
