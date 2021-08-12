@@ -22,7 +22,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from datetime import datetime
 
-from utils import Res
+from utils import Res, get_errors
 
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
@@ -44,7 +44,11 @@ class MyJSONWebToken(JSONWebTokenAPIView):
             response = Response(response_data)
             return response
 
-        return Response(json.loads(Res(code=400, msg=serializer.errors, data=None).json()))
+        return Response(
+            {"code": 400,
+             "msg":    get_errors(serializer.errors)
+             }
+        )
 
 
 class ImageView(APIView):
@@ -73,8 +77,10 @@ class RegisterView(APIView):
         serializer = UserRegSerializer(data=request.data)
         is_valid = serializer.is_valid()
         if not is_valid:
-            return Response(status=200, data={"code": 400, "msg": serializer.errors})
-
+            return Response(status=200, data={"code": 400,
+                                              "msg": get_errors(serializer.errors)
+                                              }
+            )
         uid = serializer.create(validated_data=request.data)
         return Response(status=201, data={"code": 200, "data": {
             "uid": uid
@@ -125,6 +131,8 @@ class UserRegisterViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin,
 
     def perform_create(self, serializer):
         return serializer.save()
+
+
 
 
 class RegisterView2(APIView):
