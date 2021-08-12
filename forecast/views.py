@@ -61,14 +61,15 @@ class TrainDownloadView(APIView):
     def get(self, request):
         train_id = request.query_params.get("train_id")
         if not train_id:
-            return Response(json.loads(Res(code=4001, msg="train_id is None", data=None).json()))
+            return Response(json.loads(Res(code=400, msg="train_id is None", data=None).json()))
         try:
             obj = TrainDataset.objects.get(id=train_id)
+            url = obj.train.url
         except Exception as e:
-            obj = None
+            url = None
         return Response(json.loads(Res(code=200, msg="success",
                                        data={
-                                               "train_url": obj.train.url if obj else None
+                                               "train_url": url
                                             }
                                        ).json()))
 
