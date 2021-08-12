@@ -74,7 +74,7 @@ class UserRegSerializer(serializers.Serializer):
             raise serializers.ValidationError("手机号已存在")
         return telephone
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> int:
         user = User.objects.create_user(username=validated_data['username'], password=validated_data['password'], email=validated_data['email'])
         Profile.objects.create(user=user)
         return user.id

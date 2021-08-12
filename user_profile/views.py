@@ -25,7 +25,6 @@ class MyJSONWebToken(JSONWebTokenAPIView):
     serializer_class = MyloginSerializer
 
 
-
 class ImageView(APIView):
     permission_classes = []
     authentication_classes = []
@@ -52,9 +51,12 @@ class RegisterView(APIView):
         serializer = UserRegSerializer(data=request.data)
         is_valid = serializer.is_valid()
         if not is_valid:
-            return Response(status=400, data=serializer.errors)
-        uid = serializer.create(serializer.data)
-        return Response(status=201, data={"code": 200, "uid": uid, "msg": "注册成功"})
+            return Response(status=200, data={"code": "400", "msg": serializer.errors, "data": None})
+
+        uid = serializer.create(validated_data=request.data)
+        return Response(status=201, data={"code": 200,"data": {
+            "uid":uid
+        }, "msg": "注册成功"})
 
 
 class UserRegisterViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin,
@@ -105,6 +107,7 @@ class UserRegisterViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin,
 
 class RegisterView2(APIView):
     permission_classes = []
+
     def post(self, request):
         serializer = UserRegSerializer(data=request.data)
         is_valid = serializer.is_valid(raise_exception=True)
@@ -117,5 +120,3 @@ class RegisterView2(APIView):
 class TestView(APIView):
     def get(self, request):
         return Response(data={"dada"})
-
-
