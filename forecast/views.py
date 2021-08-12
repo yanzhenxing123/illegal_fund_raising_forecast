@@ -1,12 +1,11 @@
 from django.shortcuts import render
-
-# Create your views here.
 from rest_framework.views import APIView
 from .serializer import TestDatasetSerializer, TrainDatasetSerializer
 from rest_framework.response import Response
 from .models import TrainDataset
 from utils import Res
 from django.core import serializers
+import json
 
 class TestUploadView(APIView):
     def post(self, request):
@@ -64,7 +63,7 @@ class TrainDownloadView(APIView):
             return Response(Res(code=400, msg="train_id is None", data=None).json())
         obj = TrainDataset.objects.filter(id=train_id)
         data = serializers.serialize("json", obj)
-        return Response(Res(code=200, msg="success", data=data).json())
+        return Response(json.loads(Res(code=200, msg="success", data=data).json()))
 
 
 
