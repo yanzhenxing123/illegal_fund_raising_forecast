@@ -82,7 +82,7 @@ class RegisterView(APIView):
                                               }
             )
         uid = serializer.create(validated_data=request.data)
-        return Response(status=201, data={"code": 200, "data": {
+        return Response(status=200, data={"code": 200, "data": {
             "uid": uid
         }, "msg": "注册成功"})
 
@@ -101,7 +101,7 @@ class UserRegisterViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin,
         payload = jwt_payload_handler(user)
         re_dict['token'] = jwt_encode_handler(payload)
         headers = self.get_success_headers(serializer.data)
-        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(re_dict, status=status.HTTP_200_OK, headers=headers)
 
     def get_serializer_class(self):
         '''
@@ -143,7 +143,7 @@ class RegisterView2(APIView):
         is_valid = serializer.is_valid(raise_exception=True)
         if is_valid:
             re_dict = serializer.data
-            return Response(re_dict, status=status.HTTP_201_CREATED)
+            return Response(re_dict, status=status.HTTP_200_OK)
         return Response(serializer.errors)
 
 

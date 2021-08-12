@@ -207,4 +207,4 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'user_profile.utils.my_jwt_response_payload_handler',
 }
 
-APPEND_SLASH=False
+# APPEND_SLASH=False
