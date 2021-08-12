@@ -134,7 +134,7 @@ class MyloginSerializer(JSONWebTokenSerializer):
 
             if user:
                 if not user.is_active:
-                    msg = _('User account is disabled.')
+                    msg = 'User account is disabled.'
                     raise serializers.ValidationError(msg)
 
                 payload = jwt_payload_handler(user)
@@ -144,10 +144,10 @@ class MyloginSerializer(JSONWebTokenSerializer):
                     'user': user
                 }
             else:
-                msg = _('Unable to log in with provided credentials.')
+                msg = 'Unable to log in with provided credentials.'
                 raise serializers.ValidationError(msg)
         else:
-            msg = _('Must include "{username_field}" and "password".')
+            msg = 'Must include "{username_field}" and "password".'
             msg = msg.format(username_field=self.username_field)
             raise serializers.ValidationError(msg)
 
