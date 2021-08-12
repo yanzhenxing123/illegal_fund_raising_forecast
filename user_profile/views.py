@@ -44,7 +44,7 @@ class MyJSONWebToken(JSONWebTokenAPIView):
             response = Response(response_data)
             return response
 
-        return Response(Res(200, str(serializer.errors), None).json(), status=status.HTTP_200_OK)
+        return Response(Res(code=200, msg="请求有误", data=serializer.errors).json(), status=status.HTTP_200_OK)
 
 
 class ImageView(APIView):
