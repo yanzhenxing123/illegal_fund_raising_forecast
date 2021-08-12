@@ -37,8 +37,6 @@ class MyJSONWebToken(JSONWebTokenAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
 
-        print(serializer)
-
         if serializer.is_valid():
             user = serializer.object.get('user') or request.user
             token = serializer.object.get('token')
@@ -46,7 +44,7 @@ class MyJSONWebToken(JSONWebTokenAPIView):
             response = Response(response_data)
             return response
 
-        return Response(Res(200, serializer.errors, None).json(), status=status.HTTP_200_OK)
+        return Response(Res(200, str(serializer.errors), None).json(), status=status.HTTP_200_OK)
 
 
 class ImageView(APIView):
