@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
-from .views import ImageView, MyJSONWebToken
+from .views import ImageView, MyJSONWebToken, ConsoleView
 
 app_name = 'user_profile'
 
