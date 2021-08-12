@@ -4,7 +4,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializer import TestDatasetSerializer, TrainDatasetSerializer
 from rest_framework.response import Response
-
+from .models import TrainDataset
+from utils import Res
 
 class TestUploadView(APIView):
     def post(self, request):
@@ -56,8 +57,10 @@ class TrainUploadView(APIView):
 
 
 class TrainDownloadView(APIView):
-    def get(self):
-        pass
+    def get(self, request):
+        train_id = request.params.get("train_id")
+        if not train_id:
+            return Response(Res(400, "train_id is None", None).json())
 
 
 class TrainStartView(APIView):

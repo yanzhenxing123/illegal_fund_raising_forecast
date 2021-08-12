@@ -19,6 +19,7 @@ sklearn = "*"
 lightgbm = "*"
 catboost = "*"
 pipfile = "*"
+pydantic = "*"
 
 [dev-packages]
 
