@@ -7,8 +7,11 @@
 
 def my_jwt_response_payload_handler(token, user=None, request=None):
     return {
-        'status': 200,
+        'code': 200,
         'msg': '登录成功',
-        'username': user.username,
-        'token': token,
+        "data":{
+            'uid': user.id,
+            'username': user.username,
+            'token': token,
+        }
     }

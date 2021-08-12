@@ -99,7 +99,7 @@ class MyloginSerializer(JSONWebTokenSerializer):
         super(JSONWebTokenSerializer, self).__init__(*args, **kwargs)
 
         self.fields[self.username_field] = serializers.CharField()
-        self.fields['password'] = PasswordField(write_only=True)
+        self.fields['password'] = PasswordField(write_only=True, max_length=256)
         self.fields['captcha'] = serializers.CharField(min_length=4, max_length=4, required=True,
                                                        error_messages={
                                                            "max_length": "图片验证码格式错误",
@@ -111,7 +111,7 @@ class MyloginSerializer(JSONWebTokenSerializer):
     def validate_captcha(self, captcha):
         image_code = CaptchaStore.objects.filter(
             id=self.initial_data['ima_id']).first()
-        five_minute_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
+        five_minute_ago = datetime.now() - timedelta(hours=0, minutes=60, seconds=0)
         if image_code and five_minute_ago > image_code.expiration:
             raise serializers.ValidationError('验证码过期')
         else:
