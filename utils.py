@@ -4,5 +4,5 @@ from typing import Optional, Any
 
 class Res(BaseModel):
     code: int = Field(...)
-    msg: str = Field(...)
+    msg: Optional[Any] = Field(...)
     data: Optional[Any] = Field(...)

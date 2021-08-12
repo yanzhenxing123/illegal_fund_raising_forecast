@@ -6,6 +6,7 @@ from .serializer import TestDatasetSerializer, TrainDatasetSerializer
 from rest_framework.response import Response
 from .models import TrainDataset
 from utils import Res
+from django.core import serializers
 
 class TestUploadView(APIView):
     def post(self, request):
@@ -60,8 +61,10 @@ class TrainDownloadView(APIView):
     def get(self, request):
         train_id = request.query_params.get("train_id")
         if not train_id:
-            return Response(Res(400, "train_id is None", None).json())
-        return Response(TrainDataset.objects.get(id=train_id))
+            return Response(Res(code=400, msg="train_id is None", data=None).json())
+        obj = TrainDataset.objects.get(id=train_id)
+        data = serializers.serialize("json", obj)
+        return Response(Res(code=200, msg="success", data=data).json())
 
 
 
