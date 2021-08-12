@@ -54,8 +54,8 @@ class RegisterView(APIView):
             return Response(status=200, data={"code": "400", "msg": serializer.errors, "data": None})
 
         uid = serializer.create(validated_data=request.data)
-        return Response(status=201, data={"code": 200,"data": {
-            "uid":uid
+        return Response(status=201, data={"code": 200, "data": {
+            "uid": uid
         }, "msg": "注册成功"})
 
 
