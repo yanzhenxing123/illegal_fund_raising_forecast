@@ -59,6 +59,7 @@ class ImageView(APIView):
             imgage = captcha_image(request, hashkey)
             # 将图片转换为base64
             image_base = base64.b64encode(imgage.content)
+            print(image_base)
             json_data = json.dumps({"id": id_, "image_base": image_base.decode('utf-8')})
         except:
             json_data = None

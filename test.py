@@ -4,9 +4,10 @@
 @Desc: 
 """
 
-def test(**kwargs):
-    print(kwargs)
+import base64
 
+with open("demo.png", "rb") as f:
+    content = f.read()
 
-if __name__ == '__main__':
-    test(a=1, b=1)
+res = base64.b64encode(content)
+print(type(res.decode("utf8")))

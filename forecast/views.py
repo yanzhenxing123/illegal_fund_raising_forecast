@@ -7,6 +7,7 @@ from utils import Res
 from django.core import serializers
 import json
 
+
 class TestUploadView(APIView):
     def post(self, request):
         base_info = request.FILES.get("base_info")
@@ -60,11 +61,9 @@ class TrainDownloadView(APIView):
     def get(self, request):
         train_id = request.query_params.get("train_id")
         if not train_id:
-            return Response(json.loads(Res(code=400, msg="train_id is None", data=None).json()))
-        obj = TrainDataset.objects.filter(id=train_id)
-        data = serializers.serialize("json", obj)
-        return Response(json.loads(Res(code=200, msg="success", data=data).json()))
-
+            return Response(json.loads(Res(code=4001, msg="train_id is None", data=None).json()))
+        obj = TrainDataset.objects.get(id=train_id)
+        return Response(json.loads(Res(code=200, msg="success", data={"train_url": obj.train.url}).json()))
 
 
 class TrainStartView(APIView):
