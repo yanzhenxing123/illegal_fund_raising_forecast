@@ -58,9 +58,10 @@ class TrainUploadView(APIView):
 
 class TrainDownloadView(APIView):
     def get(self, request):
-        train_id = request.params.get("train_id")
+        train_id = request.query_params.get("train_id")
         if not train_id:
             return Response(Res(400, "train_id is None", None).json())
+        return Response(TrainDataset.objects.get(id=train_id))
 
 
 
