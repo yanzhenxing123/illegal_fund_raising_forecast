@@ -9,5 +9,5 @@ class Res(BaseModel):
 
 
 def get_errors(errors: Dict):
-    return errors.values()[0][0]
+    return list(errors.values())[0][0]
 
