@@ -62,8 +62,10 @@ class TrainDownloadView(APIView):
         train_id = request.query_params.get("train_id")
         if not train_id:
             return Response(json.loads(Res(code=4001, msg="train_id is None", data=None).json()))
-        obj = TrainDataset.objects.get(id=train_id)
-
+        try:
+            obj = TrainDataset.objects.get(id=train_id)
+        except Exception as e:
+            obj = None
         return Response(json.loads(Res(code=200, msg="success",
                                        data={"train_url": obj.train.url if obj else None
                                              }
