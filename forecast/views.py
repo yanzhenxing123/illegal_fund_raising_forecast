@@ -67,8 +67,9 @@ class TrainDownloadView(APIView):
         except Exception as e:
             obj = None
         return Response(json.loads(Res(code=200, msg="success",
-                                       data={"train_url": obj.train.url if obj else None
-                                             }
+                                       data={
+                                               "train_url": obj.train.url if obj else None
+                                            }
                                        ).json()))
 
 
