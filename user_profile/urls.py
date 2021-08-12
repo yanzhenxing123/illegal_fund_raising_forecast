@@ -17,6 +17,7 @@ urlpatterns = [
     # path('login/', obtain_jwt_token),
     path('test/', views.TestView.as_view()),
     path('images/', ImageView.as_view()),
+    path('console/', ConsoleView.as_view(), "console"),
     url(r'login/$', MyJSONWebToken.as_view(), name="login")
 ]
 
