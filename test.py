@@ -4,10 +4,21 @@
 @Desc: 
 """
 
-import base64
+import time
 
-with open("demo.png", "rb") as f:
-    content = f.read()
+li = [str(i) + "闫振兴" for i in range(1000000)]
 
-res = base64.b64encode(content)
-print(type(res.decode("utf8")))
+li_s = set(li)
+
+
+start_time1 = time.time()
+
+if "100000闫振兴" in li:
+    print(time.time() - start_time1)
+
+start_time2 = time.time()
+
+
+
+if "100000闫振兴" in li_s:
+    print(time.time() - start_time2)

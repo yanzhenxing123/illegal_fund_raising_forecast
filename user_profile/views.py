@@ -44,7 +44,7 @@ class MyJSONWebToken(JSONWebTokenAPIView):
             response = Response(response_data)
             return response
 
-        return Response(json.loads(Res(code=400, msg="请求有误", data=serializer.errors).json()))
+        return Response(json.loads(Res(code=400, msg=serializer.errors).json()))
 
 
 class ImageView(APIView):
@@ -73,7 +73,7 @@ class RegisterView(APIView):
         serializer = UserRegSerializer(data=request.data)
         is_valid = serializer.is_valid()
         if not is_valid:
-            return Response(status=200, data={"code": 400, "msg": serializer.errors, "data": None})
+            return Response(status=200, data={"code": 400, "msg": serializer.errors})
 
         uid = serializer.create(validated_data=request.data)
         return Response(status=201, data={"code": 200, "data": {
