@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
+
+from illegal_fund_raising_forecast import settings
 from .serializer import TestDatasetSerializer, TrainDatasetSerializer
 from rest_framework.response import Response
 from .models import TrainDataset
@@ -148,7 +150,7 @@ class ResultView(APIView):
     def get(self, request):
         pageIndex = request.query_params.get("pageIndex")
         pageSize = request.query_params.get("pageSize0")
-        df = pd.read_csv("./testdata.csv")
+        df = pd.read_csv(settings.MEDIA_ROOT + "/testdata.csv")
         if pageIndex * pageSize > len(df) or pageIndex * pageSize <= 0:
             return Response({"code": 400, 'msg': "参数有误"})
         start_index = 0 if pageIndex * pageSize <= 0 else (pageIndex - 1) * pageSize
