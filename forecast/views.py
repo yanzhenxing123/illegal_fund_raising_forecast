@@ -168,7 +168,7 @@ class CompanyView(APIView):
             {
                 "code": 200,
                 "msg": "",
-                "data": {
+                "data":
                     [
                         {
                             "labels": ['合资', '独资', '国有', '私有', '集体所有制', '股份制', '有限责任制'],
@@ -186,11 +186,10 @@ class CompanyView(APIView):
                         {
                             "labels": ['采掘', '制造', '批发', '零售'],
                             "datasets": {
-                                "data": [random.randint(100, 10000000) for i in range(4)]
+                                "data": [random.randint(100, 10000000) for _ in range(4)]
                             },
                         }
                     ]
-                }
             }
         )
 
