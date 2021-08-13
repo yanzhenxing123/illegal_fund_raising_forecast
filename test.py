@@ -21,3 +21,12 @@ if "100000闫振兴" in li_s:
     print(time.time() - start_time2)
 
 
+
+import pandas as pd
+
+df  =pd.read_csv("./testdata.csv")
+
+df = df.iloc[1:20, :]
+
+print(type(df.to_json()))
+
