@@ -164,16 +164,35 @@ class ConsoleView(APIView):
 
 class CompanyView(APIView):
     def get(self, request):
-        return Response({
-            "code": 200,
-            "msg": "",
-            "data": {
-                "企业类型": "国企",
-                "企业行业": "汽车",
-                "经营方式": "融资"
-            }
-        })
+        return Response(
+            {
+                "code": 200,
+                "msg": "",
+                "data": {
+                    [
+                        {
+                            "labels": ['合资', '独资', '国有', '私有', '集体所有制', '股份制', '有限责任制'],
+                            "datasets": {
+                                "data": [random.randint(100, 10000) for _ in range(7)]
+                            },
+                        },
+                        {
+                            "labels": ['地产', '银行', '互联网', '硬件', '半导体', '销售', '餐饮'],
+                            "datasets": {
+                                "data": [random.randint(100, 10000) for _ in range(7)]
+                            },
 
+                        },
+                        {
+                            "labels": ['采掘', '制造', '批发', '零售'],
+                            "datasets": {
+                                "data": [random.randint(100, 10000000) for i in range(4)]
+                            },
+                        }
+                    ]
+                }
+            }
+        )
 
 class ScoreView(APIView):
     def get(self, request):
