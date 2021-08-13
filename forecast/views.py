@@ -143,8 +143,39 @@ class TrainStartView(APIView):
 
 
 class ResultView(APIView):
-    def get(self):
-        pass
+    def get(self, request):
+        data = {
+            "code": 200,
+            "msg": "",
+            "data": {
+                "list": [
+                    {
+                        "id": 1,
+                        "name": "腾讯",
+                        "pro": 0.01,
+                    },
+                    {
+                        "id": 2,
+                        "name": "阿里",
+                        "pro": 0.02,
+                    },
+                    {
+                        "id": 3,
+                        "name": "亚马逊",
+                        "pro": 0.0013,
+
+                    },
+                    {
+                        "id": 4,
+                        "name": "apple",
+                        "pro": 0.002
+                    }
+                ],
+                "pageTotal": 4
+            }
+        }
+        return Response(data)
+
 
 class ConsoleView(APIView):
     def get(self, request):
