@@ -159,7 +159,7 @@ class ResultView(APIView):
             {
                 "code": 200,
                 "msg": "",
-                'data': json.loads(df.to_json())
+                'data': list(json.loads(df.to_json(orient='index')).values())
             }
         )
 
