@@ -149,7 +149,7 @@ class TrainStartView(APIView):
 class ResultView(APIView):
     def get(self, request):
         pageIndex = request.query_params.get("pageIndex")
-        pageSize = request.query_params.get("pageSize0")
+        pageSize = request.query_params.get("pageSize")
         df = pd.read_csv(settings.MEDIA_ROOT + "/testdata.csv")
         if pageIndex * pageSize > len(df) or pageIndex * pageSize <= 0:
             return Response({"code": 400, 'msg': "参数有误"})
