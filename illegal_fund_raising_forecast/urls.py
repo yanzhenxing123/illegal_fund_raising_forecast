@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('server/api/user/', include("user_profile.urls", namespace='profile')),
     path('server/api/', include("forecast.urls", namespace='forecast')),
-    path('index/', index)
+    path('server/api/index/', index)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
