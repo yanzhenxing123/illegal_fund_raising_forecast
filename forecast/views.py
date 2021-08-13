@@ -35,8 +35,36 @@ class TestUploadView(APIView):
                                 "positive": random.randint(1000, 10000),
                                 "negative": random.randint(1000, 10000),
                             },
-                            "area_distribution": "还未实现",
-                        }}
+                            "area_distribution": [
+                                {
+                                    "name": '北京',
+                                    "selected": True
+                                },
+                                {
+                                    "name": '天津',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '上海',
+                                    'selected': True
+                                },
+                                {
+                                    "name": '重庆',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '河北',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '河南',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '四川',
+                                    'selected': True
+                                }
+                            ]}}
                         )
 
 
@@ -57,7 +85,36 @@ class TrainUploadView(APIView):
                                 "positive": random.randint(1000, 10000),
                                 "negative": random.randint(1000, 10000),
                             },
-                            "area_distribution": "还未实现",
+                            "area_distribution": [
+                                {
+                                    "name": '北京',
+                                    "selected": True
+                                },
+                                {
+                                    "name": '天津',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '上海',
+                                    'selected': True
+                                },
+                                {
+                                    "name": '重庆',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '河北',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '河南',
+                                    'selected': True
+                                },
+                                {
+                                    'name': '四川',
+                                    'selected': True
+                                }
+                            ],
                             "url": obj.train.url,
                         }}
                         )
