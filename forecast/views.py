@@ -6,6 +6,8 @@ from .models import TrainDataset
 from utils import Res
 import json
 import random
+import pandas as pd
+
 
 
 class TestUploadView(APIView):
@@ -144,37 +146,22 @@ class TrainStartView(APIView):
 
 class ResultView(APIView):
     def get(self, request):
-        data = {
-            "code": 200,
-            "msg": "",
-            "data": {
-                "list": [
-                    {
-                        "id": 1,
-                        "name": "腾讯",
-                        "pro": 0.01,
-                    },
-                    {
-                        "id": 2,
-                        "name": "阿里",
-                        "pro": 0.02,
-                    },
-                    {
-                        "id": 3,
-                        "name": "亚马逊",
-                        "pro": 0.0013,
-
-                    },
-                    {
-                        "id": 4,
-                        "name": "apple",
-                        "pro": 0.002
-                    }
-                ],
-                "pageTotal": 4
+        pageIndex = request.query_params.get("pageIndex")
+        pageSize = request.query_params.get("pageSize0")
+        df = pd.read_csv("./testdata.csv")
+        if pageIndex * pageSize > len(df) or pageIndex * pageSize <= 0:
+            return Response({"code": 400, 'msg': "参数有误"})
+        start_index = 0 if pageIndex * pageSize <= 0 else (pageIndex - 1) * pageSize
+        df = df.iloc[start_index:pageIndex * pageSize, :]
+        return Response(
+            {
+                "code": 200,
+                "msg": "",
+                'data': df.to_json
             }
-        }
-        return Response(data)
+        )
+
+
 
 
 class ConsoleView(APIView):
