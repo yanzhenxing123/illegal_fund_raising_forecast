@@ -14,28 +14,26 @@ from sklearn.model_selection import train_test_split
 
 
 #导入数据集
-base_info = pd.read_csv('./train/train/base_info.csv')         # 企业基本信息
-annual_report_info = pd.read_csv('./train/train/annual_report_info.csv')         # 年报基本信息
-tax_info = pd.read_csv('./train/train/tax_info.csv')         #企业的纳税信息
-change_info = pd.read_csv('./train/train/change_info.csv')         # 企业变更信息
-news_info = pd.read_csv('./train/train/news_info.csv')         # 舆论新闻
-other_info = pd.read_csv('./train/train/other_info.csv')         # 企业其他信息
-entprise_info = pd.read_csv('./train/train/entprise_info.csv')         # 带标注的企业数据
-entprise_evaluate = pd.read_csv('entprise_evaluate.csv')         # 测试
+def read_data(base_info_path,
+              annual_report_info_path,
+              tax_info_path,
+              change_info_path,
+              news_info_path,
+              other_info_path,
+              entprise_info_path,
+              ):
+    base_info = pd.read_csv(base_info_path)  # 企业基本信息
+    annual_report_info = pd.read_csv(annual_report_info_path)
+    tax_info = pd.read_csv(annual_report_info_path)
+    change_info = pd.read_csv(change_info_path)
+    news_info = pd.read_csv(news_info_path)
+    other_info = pd.read_csv(other_info_path)
+    entprise_info = pd.read_csv(entprise_info_path)
+    pd.to_datetime(tax_info['START_DATE'], format="%Y-%m-%d")
+    return base_info, annual_report_info,  tax_info, change_info, news_info, other_info, entprise_info
 
 
-# In[3]:
 
-
-print('base_info')
-print(base_info.columns)
-print('annual_report_info')
-print(annual_report_info.columns)
-
-print('entprise_info')
-print(entprise_info.columns)
-
-pd.to_datetime(tax_info['START_DATE'],format="%Y-%m-%d")
 
 df_x = pd.DataFrame(entprise_info['id'])
 df_y = pd.DataFrame(entprise_info['label'])

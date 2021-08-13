@@ -160,3 +160,29 @@ class ConsoleView(APIView):
 
             }
         )
+
+
+class CompanyView(APIView):
+    def get(self, request):
+        return Response({
+            "code": 200,
+            "msg": "",
+            "data": {
+                "企业类型": "国企",
+                "企业行业": "汽车",
+                "经营方式": "融资"
+            }
+        })
+
+
+class ScoreView(APIView):
+    def get(self, request):
+        return Response(
+            {
+                "code": 200,
+                "msg": "",
+                "data": {
+                    "f1_score": random.random(),
+                }
+            }
+        )

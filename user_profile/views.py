@@ -1,5 +1,6 @@
 import base64
 import json
+import random
 
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
@@ -46,7 +47,7 @@ class MyJSONWebToken(JSONWebTokenAPIView):
 
         return Response(
             {"code": 400,
-             "msg":    get_errors(serializer.errors)
+             "msg": get_errors(serializer.errors)
              }
         )
 
@@ -80,7 +81,7 @@ class RegisterView(APIView):
             return Response(status=200, data={"code": 400,
                                               "msg": get_errors(serializer.errors)
                                               }
-            )
+                            )
         uid = serializer.create(validated_data=request.data)
         return Response(status=200, data={"code": 200, "data": {
             "uid": uid
@@ -133,8 +134,6 @@ class UserRegisterViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin,
         return serializer.save()
 
 
-
-
 class RegisterView2(APIView):
     permission_classes = []
 
@@ -145,6 +144,7 @@ class RegisterView2(APIView):
             re_dict = serializer.data
             return Response(re_dict, status=status.HTTP_200_OK)
         return Response(serializer.errors)
+
 
 
 
