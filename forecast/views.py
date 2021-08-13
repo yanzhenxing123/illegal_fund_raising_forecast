@@ -155,11 +155,14 @@ class ResultView(APIView):
             return Response({"code": 400, 'msg': "参数有误"})
         start_index = 0 if pageIndex * pageSize <= 0 else (pageIndex - 1) * pageSize
         df = df.iloc[start_index:pageIndex * pageSize, :]
+        res = list(json.loads(df.to_json(orient='index')).values())
+
         return Response(
             {
                 "code": 200,
                 "msg": "",
-                'data': list(json.loads(df.to_json(orient='index')).values())
+                'data': res,
+                "pageTotal": pageIndex * pageSize - start_index
             }
         )
 
